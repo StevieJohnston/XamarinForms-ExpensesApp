@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using Xamarin.Forms;
 using XamarinFormsExpensesApp.Models;
@@ -7,6 +8,8 @@ namespace XamarinFormsExpensesApp.ViewModels
 {
     public class NewExpenseVM : INotifyPropertyChanged
     {
+        public ObservableCollection<string> Categories { get; set; }
+
         public string expenseName;
         public string ExpenseName
         {
@@ -77,6 +80,9 @@ namespace XamarinFormsExpensesApp.ViewModels
 
         public NewExpenseVM()
         {
+            Categories = new ObservableCollection<string>();
+            GetCategories();
+            ExpenseDate = DateTime.Today;
             SaveExpenseCommand = new Command(InsertExpense);
         }
 
@@ -97,6 +103,18 @@ namespace XamarinFormsExpensesApp.ViewModels
                 Application.Current.MainPage.Navigation.PopAsync();
             else
                 Application.Current.MainPage.DisplayAlert("Error", "No items were inserted", "Ok");
+        }
+
+        private void GetCategories()
+        {
+            Categories.Clear();
+            Categories.Add("Housing");
+            Categories.Add("Debt");
+            Categories.Add("Health");
+            Categories.Add("Food");
+            Categories.Add("Personal");
+            Categories.Add("Travel");
+            Categories.Add("Other");
         }
     }
 }

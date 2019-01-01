@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using SQLite;
 using XamarinForms_ExpensesApp;
+using System.Linq;
 
 namespace XamarinFormsExpensesApp.Models
 {
@@ -37,6 +38,24 @@ namespace XamarinFormsExpensesApp.Models
             {
                 conn.CreateTable<Expense>();
                 return conn.Table<Expense>().ToList();
+            }
+        }
+
+        public static float TotalExpensesAmount()
+        {
+            using (SQLiteConnection conn = new SQLiteConnection(App.DatabasePath))
+            {
+                conn.CreateTable<Expense>();
+                return conn.Table<Expense>().ToList().Sum(e => e.Amount);
+            }
+        }
+
+        public static List<Expense> GetExpenses(string Category)
+        {
+            using (SQLiteConnection conn = new SQLiteConnection(App.DatabasePath))
+            {
+                conn.CreateTable<Expense>();
+                return conn.Table<Expense>().Where(e => e.Category == Category).ToList();
             }
         }
     }
